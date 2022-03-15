@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "serve": "nodemon index"
+        "serve": "set NODE_ENV=staging & nodemon index",
+        "production": "set NODE_ENV=production & nodemon index"
     },
     "dependencies": {}
 }

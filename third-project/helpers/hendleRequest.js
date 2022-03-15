@@ -31,28 +31,26 @@ handler.hendleRequest = (req, res) => {
 
     //To check the route path...
     const checkingHandler = routes[trimPath] ? routes[trimPath] : notFoundHandler;
-    checkingHandler(requestProperties, (statusCode, payload) => {
-        statusCode = typeof statusCode === 'number' ? statusCode : 500;
-        payload = typeof payload === 'object' ? payload : {};
-
-        const payloadString = JSON.stringify(payload);
-
-        // return the final response
-        res.writeHead(statusCode);
-        res.end(payloadString);
-    })
 
     req.on('data', (buffer) => {
         currentData += decoder.write(buffer);
-    })
+    });
     
     req.on('end', (buffer) => {
         currentData += decoder.end();
-        console.log(currentData);
-        res.end();
-    })
 
-
+        checkingHandler(requestProperties, (statusCode, payload) => {
+            statusCode = typeof statusCode === 'number' ? statusCode : 500;
+            payload = typeof payload === 'object' ? payload : {};
+    
+            const payloadString = JSON.stringify(payload);
+    
+            // return the final response
+            res.writeHead(statusCode);
+            res.end(payloadString);
+        });
+        res.end('Hello Najmun');
+    });
 }
 
 module.exports = handler;
